@@ -742,28 +742,32 @@ const menuItems = [
           <div className="stat-card">
             <div className="stat-icon purple">✧</div>
             <p>Total Skills</p>
-            <h2>08</h2>
+            <h2>{skills.length.toString().padStart(2, '0')}</h2>
             <span>Skills in your profile</span>
           </div>
 
           <div className="stat-card">
             <div className="stat-icon blue">◎</div>
             <p>Skills Matched</p>
-            <h2>05</h2>
+            <h2>{matchedSkills.length.toString().padStart(2, '0')}</h2>
             <span>Matching your career goal</span>
           </div>
 
           <div className="stat-card">
             <div className="stat-icon orange">◈</div>
             <p>Skills to Learn</p>
-            <h2>06</h2>
+            <h2>{missingSkills.length.toString().padStart(2, '0')}</h2>
             <span>Areas to improve</span>
           </div>
 
 <div className="stat-card">
             <div className="stat-icon green">✓</div>
             <p>Completion</p>
-            <h2>45%</h2>
+            <h2>
+  {allRoadmapItems.length
+    ? Math.round((completedSkills.length / allRoadmapItems.length) * 100)
+    : 0}%
+</h2>
             <span>Your learning progress</span>
           </div>
         </section>
@@ -780,7 +784,7 @@ const menuItems = [
             </div>
 
             <div className="career-icon">📊</div>
-            <h3>Data Analyst</h3>
+            <h3>{selectedCareer?.title || 'No career selected'}</h3>
             <p className="career-description">
               Build expertise in data analysis, statistics,
               SQL and visualization.
@@ -788,11 +792,23 @@ const menuItems = [
 
             <div className="progress-heading">
               <span>Overall Progress</span>
-              <strong>45%</strong>
+              <strong>
+  {allRoadmapItems.length
+    ? Math.round((completedSkills.length / allRoadmapItems.length) * 100)
+    : 0}%
+</strong>
             </div>
 
             <div className="progress-bar">
-              <div style={{ width: '45%' }}></div>
+             <div
+  style={{
+    width: `${
+      allRoadmapItems.length
+        ? Math.round((completedSkills.length / allRoadmapItems.length) * 100)
+        : 0
+    }%`
+  }}
+></div>
             </div>
 
             <button
@@ -803,40 +819,51 @@ const menuItems = [
             </button>
           </div>
 
-          <div className="panel activity-panel">
-            <div className="panel-heading">
-              <div>
-                <h2>Learning Overview</h2>
-                <p>Your skill development status</p>
-              </div>
-            </div>
-              <div className="activity-item">
-              <div className="activity-dot completed"></div>
-              <div>
-                <strong>Completed Skills</strong>
-                <p>Python, Excel, HTML</p>
-              </div>
-              <span>3</span>
-            </div>
+         
+<div className="panel activity-panel">
+  <div className="panel-heading">
+    <div>
+      <h2>Learning Overview</h2>
+      <p>Your skill development status</p>
+    </div>
+  </div>
 
-            <div className="activity-item">
-              <div className="activity-dot ongoing"></div>
-              <div>
-                <strong>Currently Learning</strong>
-                <p>SQL, Statistics</p>
-              </div>
-              <span>2</span>
-            </div>
+  <div className="activity-item">
+    <div className="activity-dot completed"></div>
+    <div>
+      <strong>Completed Topics</strong>
+      <p>
+        {completedSkills.length > 0
+          ? completedSkills.join(', ')
+          : 'No topics completed yet'}
+      </p>
+    </div>
+    <span>{completedSkills.length}</span>
+  </div>
 
-            <div className="activity-item">
-              <div className="activity-dot pending"></div>
-              <div>
-                <strong>Yet to Start</strong>
-                <p>Power BI, Tableau</p>
-              </div>
-              <span>3</span>
-            </div>
-          </div>
+  <div className="activity-item">
+    <div className="activity-dot pending"></div>
+    <div>
+      <strong>Yet to Start</strong>
+      <p>
+        {allRoadmapItems.filter(
+          item => !completedSkills.includes(item)
+        ).length > 0
+          ? allRoadmapItems
+              .filter(item => !completedSkills.includes(item))
+              .join(', ')
+          : 'No pending topics'}
+      </p>
+    </div>
+    <span>
+      {allRoadmapItems.filter(
+        item => !completedSkills.includes(item)
+      ).length}
+    </span>
+  </div>
+</div>
+
+          
 
         </section>
 
