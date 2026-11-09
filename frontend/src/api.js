@@ -1,5 +1,5 @@
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://project-skill-gap-analyzer.onrender.com';
 
 export async function apiRequest(endpoint, options = {}) {
     const token = localStorage.getItem('token');
